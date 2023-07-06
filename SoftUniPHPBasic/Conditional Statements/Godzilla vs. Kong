@@ -1,0 +1,23 @@
+<?php
+
+$budjet = floatval(readline());
+$statist = intval(readline());
+$priceClothes = floatval(readline());
+
+$decor = $budjet * 0.10;
+
+if ($statist >= 150){
+    $priceClothes *= 0.90;
+}
+
+$total = $decor + ($priceClothes * $statist);
+$diff = abs($total - $budjet);
+$format = number_format($diff, 2, '.', '');
+if ($total >= $budjet){
+    echo "Not enough money!".PHP_EOL;
+    echo "Wingard needs {$format} leva more.".PHP_EOL;
+}
+else{
+    echo "Action!";
+    echo "Wingard starts filming with {$format} leva left.";
+}

@@ -1,0 +1,22 @@
+<?php
+
+$name = readline();
+$count = 1;
+$sum = 0;
+$average = 0;
+
+while ($count <= 12){
+    $grade = floatval(readline());
+    if ($grade >= 4){
+        $count++;
+        $sum += $grade;
+    }
+    else{
+        echo "{$name} has been excluded at {$count} grade";
+        exit();
+    }
+}
+$average = $sum / 12;
+
+$result = number_format($average, 2);
+echo "{$name} graduated. Average grade: {$result}";

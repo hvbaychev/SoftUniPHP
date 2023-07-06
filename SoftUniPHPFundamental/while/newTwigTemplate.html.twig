@@ -1,0 +1,217 @@
+@extends('layouts.index')
+
+@section('content')
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    th:nth-child(2) {
+        width: 60%;
+    }
+
+    th:nth-child(3), td:nth-child(3) {
+        width: 20%;
+    }
+
+    .save-button {
+        display: block;
+        margin-top: 10px;
+        padding: 6px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        float:right;
+    }
+    .dropdown-toggle {
+        width: 200px; /* Променете тази стойност според вашите предпочитания */
+    }
+
+</style>
+
+
+<section class="site-hero site-hero-innerpage2" data-stellar-background-ratio="0.5" style="background-image: url('{{ url('images/dashboard/adminDashboard.jpg') }}');padding-top: 65px;">
+    <div class="container">
+        <div class="row align-items-center site-hero-inner2 justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="mb-5 element-animate">
+                    <h1>Grades/Absences</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="site-section bg-light">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-5 box">
+                <form action="{{ route('course.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if(Session::has('success'))
+                    <div class="alert alert-success">{{Session::get('success')}}</div>
+                    @endif
+                    @if(Session::has('fail'))
+                    <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Courses
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Courses 1</a>
+                                    <a class="dropdown-item" href="#">Courses 2</a>
+                                    <a class="dropdown-item" href="#">Courses 3</a>
+                                </div>
+                                
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Module
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                    <a class="dropdown-item" href="#">Module 1</a>
+                                    <a class="dropdown-item" href="#">Module 2</a>
+                                    <a class="dropdown-item" href="#">Module 3</a>
+                                </div>
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Lecture
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                    <a class="dropdown-item" href="#">Lecture 1</a>
+                                    <a class="dropdown-item" href="#">Lecture 2</a>
+                                    <a class="dropdown-item" href="#">Lecture 3</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div style="position: absolute; top: 0; right: 0;">
+                                    <div>
+                                        <span class="date" style="float: right; margin-right: 10px;">Lecture date:</span>
+                                    </div>
+                                    <div>
+                                        <span class="date" style="float: right; margin-right: 10px;">Overall grade:</span>
+                                    </div>
+                                    <div>
+                                        <span class="date" style="float: right; margin-right: 10px;">Module grade:</span>
+                                    </div>
+                                    <div>
+                                        <span class="date" style="float: right; margin-right: 10px;">Lecture grade:</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="optionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Select Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="optionDropdown">
+                                    <a class="dropdown-item" href="#" onclick="selectOption('Course')">Име 1</a>
+                                    <a class="dropdown-item" href="#" onclick="selectOption('Module')">Име 2</a>
+                                    <a class="dropdown-item" href="#" onclick="selectOption('Lecture')">Име 3</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <p style="display: inline-block;">Absence</p><br>
+                            <div style="display: inline-block;">
+                                <input type="checkbox" id="checkbox1" name="checkbox1" style="border-radius: 50%;">
+                                <label for="checkbox1" style="display: inline-block;">Was late</label>
+
+                                <input type="checkbox" id="checkbox2" name="checkbox2" style="border-radius: 50%;">
+                                <label for="checkbox2" style="display: inline-block;">Escaped</label>
+
+                                <input type="checkbox" id="checkbox3" name="checkbox3" style="border-radius: 50%;">
+                                <label for="checkbox3" style="display: inline-block;">Did not come</label>
+
+                                <div style="display: inline-block; text-align: right; margin-left: 350px;">
+                                    <input type="checkbox" id="checkbox4" name="checkbox4" style="border-radius: 50%;">
+                                    <label for="checkbox4" style="display: inline-block;">Disregarded</label>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Reason/Notes:</p>
+                            </div>
+                            <div style="position: relative;">
+                                <p>Reason/Notes:</p>
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+                                    <input type="text" style="width: 100%; height: 100%;" name="" id="">
+                                </div>
+                            </div>
+                            <div>
+                                <p>Homework:</p>
+                            </div>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ADD</th>
+                                        <th>STATUS</th>
+                                        <th>GRADE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Task 1">
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <input type="checkbox" id="checkbox5" name="checkbox5">
+                                                <label for="checkbox5">Has homework</label>
+                                                <input type="checkbox" id="checkbox6" name="checkbox6">
+                                                <label for="checkbox6">Not working</label>
+                                                <input type="checkbox" id="checkbox7" name="checkbox7">
+                                                <label for="checkbox7">On time</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <button type="button" class="save-button">SAVE</button>
+
+
+
+                            </form>
+                        </div>
+                    </div>
+            </div>
+            </section>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script>
+                                        function selectOption(option) {
+                                            document.getElementById('optionDropdown').textContent = option;
+                                        }
+            </script>
+
+            @endsection
